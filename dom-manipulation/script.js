@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const randomQuote = quotes[randomIndex].text;
     const quoteCategory = quotes[randomIndex].category;
 
-    quoteDisplay.textContent = randomQuote + " - " + quoteCategory;
+    quoteDisplay.innerHTML = randomQuote + " - " + quoteCategory;
   }
 
   addQuoteBtn.addEventListener("click", addQuote);
