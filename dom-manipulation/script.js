@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  function addQuote() {
+  function createAddQuoteForm() {
     const newQuoteText = document.getElementById("newQuoteText");
     const newQuoteCategory = document.getElementById("newQuoteCategory");
 
@@ -49,6 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
     quoteDisplay.innerHTML = randomQuote + " - " + quoteCategory;
   }
 
-  addQuoteBtn.addEventListener("click", addQuote);
+  addQuoteBtn.addEventListener("click", createAddQuoteForm);
   newQuote.addEventListener("click", showRandomQuote);
 });
