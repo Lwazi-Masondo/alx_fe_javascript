@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
       category: "Motivation",
     },
   ];
+  let headingAdded = false;
 
   function createAddQuoteForm() {
     const newQuoteText = document.getElementById("newQuoteText");
@@ -34,6 +35,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const categoryInput = newQuoteCategory.value;
 
     quotes.push({ text: textInput, category: categoryInput });
+
+    const quoteForm = document.getElementById("quoteForm");
+
+    if (!headingAdded) {
+      const heading = document.createElement("h2");
+      heading.textContent = "Newly Added Quotes";
+      quoteForm.appendChild(heading);
+      headingAdded = true;
+    }
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = textInput + " - " + categoryInput;
+
+    quoteForm.appendChild(paragraph);
 
     console.log(quotes);
 
