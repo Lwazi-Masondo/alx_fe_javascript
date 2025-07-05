@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const newQuote = document.getElementById("newQuote");
   const addQuoteBtn = document.getElementById("addQuoteBtn");
 
-  let quotes = [
+  const defaultQuotes = [
     {
       text: "We delight in the beauty of the butterfly, but rarely admit the changes it has gone through to achieve that beauty.",
       category: "Inspiration",
@@ -25,17 +25,35 @@ document.addEventListener("DOMContentLoaded", function () {
       category: "Motivation",
     },
   ];
-  let headingAdded = false;
 
-  function createAddQuoteForm() {
+  let savedQuotes = JSON.parse(localStorage.getItem("quotes")) || [];
+
+  let allQuotes = defaultQuotes.concat(savedQuotes);
+
+  function addQuotes() {
+    // Adds quotes to the array list
     const newQuoteText = document.getElementById("newQuoteText");
     const newQuoteCategory = document.getElementById("newQuoteCategory");
 
-    const textInput = newQuoteText.value;
-    const categoryInput = newQuoteCategory.value;
+    const textInput = newQuoteText.value.trim();
+    const categoryInput = newQuoteCategory.value.trim();
 
-    quotes.push({ text: textInput, category: categoryInput });
+    savedQuotes.push({ text: textInput, category: categoryInput });
 
+    console.log(defaultQuotes);
+
+    newQuoteText.value = "";
+    newQuoteCategory.value = "";
+
+    createAddQuoteForm(textInput, categoryInput);
+
+    localStorage.setItem("quotes", JSON.stringify(savedQuotes));
+  }
+
+  let headingAdded = false;
+
+  function createAddQuoteForm(textInput, categoryInput) {
+    // Creates a form that displays the newly added quotes
     const quoteForm = document.getElementById("quoteForm");
 
     if (!headingAdded) {
@@ -49,21 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
     paragraph.textContent = textInput + " - " + categoryInput;
 
     quoteForm.appendChild(paragraph);
-
-    console.log(quotes);
-
-    newQuoteText.value = "";
-    newQuoteCategory.value = "";
   }
 
   function showRandomQuote() {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    const randomQuote = quotes[randomIndex].text;
-    const quoteCategory = quotes[randomIndex].category;
+    const randomIndex = Math.floor(Math.random() * allQuotes.length); //Helps generate a random array index number based on the length of the array to produce a random quote.
+    const randomQuote = allQuotes[randomIndex].text;
+    const quoteCategory = allQuotes[randomIndex].category;
 
     quoteDisplay.innerHTML = randomQuote + " - " + quoteCategory;
   }
+  savedQuotes.forEach((q) => createAddQuoteForm(q.text, q.category));
 
-  addQuoteBtn.addEventListener("click", createAddQuoteForm);
+  addQuoteBtn.addEventListener("click", addQuotes);
   newQuote.addEventListener("click", showRandomQuote);
 });
